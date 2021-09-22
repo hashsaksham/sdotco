@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #f7f8fc;
+  border-top: solid 5px #fea166;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  padding: 0 1rem;
+}
+code {
+  /* background: #ff7461; */
+  background: #fea166;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.status-code {
+  margin-bottom: 2rem;
+  border-bottom: 2px dashed #fea166;
+}
+
+form {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding: 0.5rem; */
+}
+input[name="new_url"] {
+  width: 300px;
+  border: 0;
+  padding: 8px;
+  outline: 0;
+  border-radius: 4px;
+}
+button[id="submit"] {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  border: 0;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #fea166;
+  color: black;
+}
+button[id="submit"]:disabled {
+  color: rgb(63, 60, 60);
+  background: #ffd7bc;
+}

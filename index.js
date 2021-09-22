@@ -1,8 +1,11 @@
 const express = require("express");
 require("dotenv").config();
 const init = require("./lib/sheets");
-// server and doc setup
+
 const app = express();
+
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 
 // MAIN DOMAIN
 app.get("/", async (req, res) => {
@@ -16,9 +19,12 @@ app.get("/", async (req, res) => {
 // routing short links
 app.get("/*", async (req, res) => {
   try {
-    const target = await init(req.originalUrl.substring(1));
+    const target = await init(req.url.substring(1));
+    if (req.path === "/reserved_redirect") {
+      return res.redirect(302, req.query.new_url);
+    }
     if (target) return res.redirect(302, target);
-    return res.send(`${req.url} not found`);
+    res.status(404).render("404", { url: req.url });
   } catch (err) {
     console.log(err);
   }
