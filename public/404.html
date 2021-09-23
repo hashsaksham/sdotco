@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-  <%- include('./partials/head.ejs', {title:"404 | URL NOT FOUND"}) %>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>TBD</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
   <body>
     <div class="container">
       <h1 class="status-code">404</h1>
-      <h1>Address <code><%= url %></code> was not found</h1>
+      <h1>Address <code>change_address</code> was not found</h1>
       <form action="/reserved_redirect">
         <input
           type="text"

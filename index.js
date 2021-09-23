@@ -2,11 +2,12 @@ const express = require("express");
 const axios = require("axios").default;
 require("dotenv").config();
 const init = require("./lib/sheets");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname + "/public")));
 
 // MAIN DOMAIN
 app.get("/", async (req, res) => {
@@ -29,8 +30,12 @@ if (process.env.GITHUB_USERNAME !== "false" && process.env.GITHUB_USERNAME) {
       if (status === 200) {
         return res.redirect(302, `https://github.com/${username}/${repo}`);
       }
+      return;
     } catch (err) {
-      return res.status(404).render("404", { url: req.url });
+      let page = fs.readFileSync(__dirname + "/public/404.html", "utf8");
+      page = page.replace("change_address", req.url);
+      page = page.replace("TBD", "404 | NOT FOUND");
+      return res.status(err.response.status).send(page);
     }
   });
 }
@@ -39,17 +44,20 @@ if (process.env.GITHUB_USERNAME !== "false" && process.env.GITHUB_USERNAME) {
 app.get("/*", async (req, res) => {
   try {
     const target = await init(req.url.substring(1));
-    if (req.path === "/reserved_redirect") {
+    if (req.path === "/reserved_redirect" && req.query.new_url !== "") {
       return res.redirect(302, req.query.new_url);
     }
     if (target) return res.redirect(302, target);
-    res.status(404).render("404", { url: req.url });
+    let page = fs.readFileSync(__dirname + "/public/404.html", "utf8");
+    page = page.replace("change_address", req.url);
+    page = page.replace("TBD", "404 | URL NOT FOUND");
+    return res.status(404).send(page);
   } catch (err) {
     console.log(err);
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, (err) => {
   console.log(`app running on port ${PORT}`);
   if (err) console.log(err);
