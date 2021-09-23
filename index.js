@@ -29,9 +29,8 @@ if (process.env.GITHUB_USERNAME !== "false" && process.env.GITHUB_USERNAME) {
       if (status === 200) {
         return res.redirect(302, `https://github.com/${username}/${repo}`);
       }
-      return res.status(404).render("404", { url: req.url });
     } catch (err) {
-      console.log(err);
+      return res.status(404).render("404", { url: req.url });
     }
   });
 }
