@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios").default;
 require("dotenv").config();
 const init = require("./lib/sheets");
 
@@ -15,6 +16,25 @@ app.get("/", async (req, res) => {
     console.log(err);
   }
 });
+
+// Github Repos
+if (process.env.GITHUB_USERNAME !== "false" && process.env.GITHUB_USERNAME) {
+  app.get("/gh/:repo", async (req, res) => {
+    try {
+      const { repo } = req.params;
+      const { GITHUB_USERNAME: username } = process.env;
+      const { status } = await axios.get(
+        `https://api.github.com/repos/${username}/${repo}`
+      );
+      if (status === 200) {
+        return res.redirect(302, `https://github.com/${username}/${repo}`);
+      }
+      return res.status(404).render("404", { url: req.url });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
 
 // routing short links
 app.get("/*", async (req, res) => {
