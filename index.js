@@ -12,9 +12,11 @@ app.use(express.static(path.join(__dirname + "/public")));
 // MAIN DOMAIN
 app.get("/", async (req, res) => {
   try {
+    console.log(process.env.MAIN_DOMAIN);
     return res.redirect(302, process.env.MAIN_DOMAIN);
   } catch (err) {
     console.log(err);
+    console.log(process.env.MAIN_DOMAIN);
   }
 });
 
@@ -58,7 +60,7 @@ app.get("/*", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, (err) => {
+app.listen(PORT, err => {
   console.log(`app running on port ${PORT}`);
   if (err) console.log(err);
 });
